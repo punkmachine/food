@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function hideTabContent() {
     tabsContent.forEach(function (tab) {
-      tab.style.display = 'none';
+      tab.classList.add('hide');
+      tab.classList.remove('show', 'fade');
     });
     tabs.forEach(function (tab) {
       tab.classList.remove('tabheader__item_active');
@@ -112,7 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showTabContent(number) {
-    tabsContent[number].style.display = 'block';
+    tabsContent[number].classList.add('show', 'fade');
+    tabsContent[number].classList.remove('hide');
     tabs[number].classList.add('tabheader__item_active');
   } //обработчики событий
 

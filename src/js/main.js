@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	//раздел функций
 	function hideTabContent() {
 		tabsContent.forEach(function(tab) {
-			tab.style.display = 'none';
+			tab.classList.add('hide');
+			tab.classList.remove('show', 'fade');
 		});
 
 		tabs.forEach(function(tab) {
@@ -19,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function showTabContent(number) {
-		tabsContent[number].style.display = 'block';
+		tabsContent[number].classList.add('show', 'fade');
+		tabsContent[number].classList.remove('hide');
 		tabs[number].classList.add('tabheader__item_active');
 	}
 
