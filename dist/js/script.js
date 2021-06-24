@@ -153,9 +153,9 @@ document.addEventListener('DOMContentLoaded', () => {
           minutes = timer.querySelector('#minutes'),
           seconds = timer.querySelector('#seconds'),
           //переменная таймера
-    timeInterval = setInterval(updateClock, 1000); //для того, чтобы убрать мигание даты при загрузке страницы.
-
-    updateClock();
+    timeInterval = setInterval(updateClock, 1000),
+          //для проверки актуальности таймера изначально
+    time = getTimeRemaining(endtime);
 
     function updateClock() {
       const t = getTimeRemaining(endtime); //занесение необходимых значений в объекты на странице
@@ -168,6 +168,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (t.total <= 0) {
         clearInterval(timeInterval);
       }
+    } //для того, чтобы убрать мигание даты при загрузке страницы.
+
+
+    if (time.total > 0) {
+      updateClock();
+    } else {
+      //занесение необходимых значений в объекты на странице
+      days.innerHTML = "00";
+      hours.innerHTML = "00";
+      minutes.innerHTML = "00";
+      seconds.innerHTML = "00"; //остановка таймера.
+
+      clearInterval(timeInterval);
     }
   } //! обработчики событий
 
