@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const deadline = '2021-07-05T15:00:00.000Z';
   const modalOpen = document.querySelectorAll('[data-modal-open]'),
         modalClose = document.querySelector('[data-modal-close]'),
-        modalWindow = document.querySelector('.modal'); //! раздел функций
+        modalWindow = document.querySelector('.modal'),
+        modalTimerId = setTimeout(openModalWindow, 6000); //! раздел функций
 
   function hideTabContent() {
     tabsContent.forEach(function (tab) {
@@ -184,6 +185,21 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeModalWindow() {
     modalWindow.classList.remove('modal_active');
     document.body.style.overflow = '';
+  }
+
+  function openModalWindow() {
+    modalWindow.classList.add('modal_active');
+    document.body.style.overflow = 'hidden';
+    clearInterval(modalTimerId);
+  }
+
+  function showModalByScroll() {
+    //* Без "-1" в конце не работает в Vivaldi из-за нижнего тулбара.
+    //* В хроме и мозиле конфликтов из-за этого не возникает.
+    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+      openModalWindow();
+      window.removeEventListener('scroll', showModalByScroll);
+    }
   } //! обработчики событий
 
 
@@ -205,10 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }); //назначение на каждую кнопку открытия модалки.
 
   modalOpen.forEach(function (btn) {
-    btn.addEventListener('click', function (event) {
-      modalWindow.classList.add('modal_active');
-      document.body.style.overflow = 'hidden';
-    });
+    btn.addEventListener('click', openModalWindow);
   });
   modalClose.addEventListener('click', closeModalWindow);
   modalWindow.addEventListener('click', function (event) {
@@ -220,7 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.code === 'Escape' && modalWindow.classList.contains('modal_active')) {
       closeModalWindow();
     }
-  }); //! раздел вызова функций
+  }); //при долистывании до конца - показывать модалку.
+
+  window.addEventListener('scroll', showModalByScroll); //! раздел вызова функций
 
   hideTabContent();
   showTabContent(0);
