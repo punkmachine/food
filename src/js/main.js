@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const tabs = document.querySelectorAll('.tabheader__item'),
 		  tabsContent = document.querySelectorAll('.tabcontent'),
 		  tabsParent = document.querySelector('.tabheader__items');
-	const deadline = '2021-07-02';
+	const deadline = '2021-07-05T15:00:00.000Z';
 	const modalOpen = document.querySelectorAll('[data-modal-open]'),
 		  modalClose = document.querySelector('[data-modal-close]'),
 		  modalWindow = document.querySelector('.modal');
@@ -87,13 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (time.total > 0 ) {
 			updateClock();
 		} else {
-			//занесение необходимых значений в объекты на странице
-			days.innerHTML = "00";
-			hours.innerHTML = "00";
-			minutes.innerHTML = "00";
-			seconds.innerHTML = "00";
-			
-			//остановка таймера.
 			clearInterval(timeInterval);
 		}
 	}
