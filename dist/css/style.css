@@ -527,6 +527,8 @@ a {
     text-align: center;
     padding: 0 20px;
     outline: none; }
+  .modal_active {
+    display: block; }
   .modal .btn {
     display: block;
     width: 280px;

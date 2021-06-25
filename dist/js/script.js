@@ -101,7 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelectorAll('.tabheader__item'),
         tabsContent = document.querySelectorAll('.tabcontent'),
         tabsParent = document.querySelector('.tabheader__items');
-  const deadline = '2021-07-02'; //! раздел функций
+  const deadline = '2021-07-02';
+  const modalOpen = document.querySelectorAll('[data-modal-open]'),
+        modalClose = document.querySelector('[data-modal-close]'),
+        modalWindow = document.querySelector('.modal'); //! раздел функций
 
   function hideTabContent() {
     tabsContent.forEach(function (tab) {
@@ -182,6 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       clearInterval(timeInterval);
     }
+  }
+
+  function closeModalWindow() {
+    modalWindow.classList.remove('modal_active');
+    document.body.style.overflow = '';
   } //! обработчики событий
 
 
@@ -199,6 +207,24 @@ document.addEventListener('DOMContentLoaded', () => {
           showTabContent(item);
         }
       });
+    }
+  }); //назначение на каждую кнопку открытия модалки.
+
+  modalOpen.forEach(function (btn) {
+    btn.addEventListener('click', function (event) {
+      modalWindow.classList.add('modal_active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  modalClose.addEventListener('click', closeModalWindow);
+  modalWindow.addEventListener('click', function (event) {
+    if (event.target === modalWindow) {
+      closeModalWindow();
+    }
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.code === 'Escape' && modalWindow.classList.contains('modal_active')) {
+      closeModalWindow();
     }
   }); //! раздел вызова функций
 
