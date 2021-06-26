@@ -99,17 +99,26 @@
 document.addEventListener('DOMContentLoaded', () => {
   //! классы
   class MenuCard {
-    constructor(title, description, price, img, parent) {
+    constructor(title, description, price, img, parent = '.menu__field .container', ...classes) {
       this.title = title;
       this.description = description;
       this.price = price;
       this.img = img;
       this.parent = document.querySelector(parent);
+      this.classes = classes;
     }
 
     render() {
-      const element = document.createElement('div');
-      element.classList.add('menu__item');
+      const element = document.createElement('div'); //если нет классов, которые мы передавали в конструктор, добавить базовый.
+
+      if (this.classes.length === 0) {
+        this.classes.push('menu__item');
+      } //назначение классов селекторам
+
+
+      this.classes.forEach(function (className) {
+        element.classList.add(className);
+      });
       element.innerHTML = `
 				<img src="${this.img}" alt="${this.title}">
 				<h3 class="menu__item-subtitle">${this.title}</h3>
@@ -268,9 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
   hideTabContent();
   showTabContent(0);
   setClock('.timer', deadline);
-  new MenuCard('Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229, 'img/tabs/vegy.jpg', '.menu__field .container').render();
-  new MenuCard('Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 550, 'img/tabs/elite.jpg', '.menu__field .container').render();
-  new MenuCard('Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 430, 'img/tabs/post.jpg', '.menu__field .container').render();
+  new MenuCard('Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229, 'img/tabs/vegy.jpg').render();
+  new MenuCard('Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 550, 'img/tabs/elite.jpg').render();
+  new MenuCard('Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 430, 'img/tabs/post.jpg').render();
 });
 
 /***/ })
