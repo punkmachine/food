@@ -97,15 +97,43 @@
  //После загрузки DOM.
 
 document.addEventListener('DOMContentLoaded', () => {
-  //! раздел констант
+  //! классы
+  class MenuCard {
+    constructor(title, description, price, img, parent) {
+      this.title = title;
+      this.description = description;
+      this.price = price;
+      this.img = img;
+      this.parent = document.querySelector(parent);
+    }
+
+    render() {
+      const element = document.createElement('div');
+      element.classList.add('menu__item');
+      element.innerHTML = `
+				<img src="${this.img}" alt="${this.title}">
+				<h3 class="menu__item-subtitle">${this.title}</h3>
+				<div class="menu__item-descr">${this.description}</div>
+				<div class="menu__item-divider"></div>
+				<div class="menu__item-price">
+					<div class="menu__item-cost">Цена:</div>
+					<div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+				</div>
+			`;
+      this.parent.append(element);
+    }
+
+  } //! раздел констант
+
+
   const tabs = document.querySelectorAll('.tabheader__item'),
         tabsContent = document.querySelectorAll('.tabcontent'),
         tabsParent = document.querySelector('.tabheader__items');
-  const deadline = '2021-07-05T15:00:00.000Z';
+  const deadline = '2021-07-15T15:00:00.000Z';
   const modalOpen = document.querySelectorAll('[data-modal-open]'),
         modalClose = document.querySelector('[data-modal-close]'),
         modalWindow = document.querySelector('.modal'),
-        modalTimerId = setTimeout(openModalWindow, 6000); //! раздел функций
+        modalTimerId = setTimeout(openModalWindow, 10000); //! раздел функций
 
   function hideTabContent() {
     tabsContent.forEach(function (tab) {
@@ -235,11 +263,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }); //при долистывании до конца - показывать модалку.
 
-  window.addEventListener('scroll', showModalByScroll); //! раздел вызова функций
+  window.addEventListener('scroll', showModalByScroll); //! раздел вызова функций и методов классов.
 
   hideTabContent();
   showTabContent(0);
   setClock('.timer', deadline);
+  new MenuCard('Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229, 'img/tabs/vegy.jpg', '.menu__field .container').render();
+  new MenuCard('Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 550, 'img/tabs/elite.jpg', '.menu__field .container').render();
+  new MenuCard('Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 430, 'img/tabs/post.jpg', '.menu__field .container').render();
 });
 
 /***/ })
