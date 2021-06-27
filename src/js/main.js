@@ -49,7 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	const modalOpen = document.querySelectorAll('[data-modal-open]'),
 		  modalClose = document.querySelector('[data-modal-close]'),
 		  modalWindow = document.querySelector('.modal'),
-		  modalTimerId = setTimeout(openModalWindow, 10000);
+		  modalTimerId = setTimeout(openModalWindow, 100000);
+	const forms = document.querySelectorAll('form'),
+		  messages = {
+			  loading: 'Загрузка',
+			  success: 'Спасибо! Скоро свяжемся с вами!',
+			  failure: 'Сервер грустит'
+		  }
 
 	//! раздел функций
 	function hideTabContent() {
@@ -151,6 +157,39 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
+	function postData(form) {
+		form.addEventListener('submit', function(event) {
+			event.preventDefault();
+
+			const statusMessage = document.createElement('div');
+			statusMessage.classList.add('status');
+			statusMessage.textContent = messages.loading;
+			form.append(statusMessage);
+
+			//создание запроса
+			const request = new XMLHttpRequest();
+			//конструкция данных из форм
+			const formData = new FormData(form);
+
+			//настройка, куда и как отправить данные
+			request.open('POST', 'server.php');
+			//отправка данных
+			request.send(formData);
+
+			request.addEventListener('load', function() {
+				if (request.status === 200) {
+					statusMessage.textContent = messages.success;
+					form.reset();
+					setTimeout(function() {
+						statusMessage.remove();
+					}, 3400);
+				} else {
+					statusMessage.textContent = messages.failure;
+				}
+			});
+		});
+	}
+
 	//! обработчики событий
 	tabsParent.addEventListener('click', function(event) {
 		//для того, чтобы часто не писать полностью.
@@ -212,4 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		430, 
 		'img/tabs/post.jpg'
 	).render();
+
+	//привязка функций к каждой форме
+	forms.forEach(function(item) {
+		postData(item);
+	});
 });

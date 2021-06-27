@@ -142,7 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalOpen = document.querySelectorAll('[data-modal-open]'),
         modalClose = document.querySelector('[data-modal-close]'),
         modalWindow = document.querySelector('.modal'),
-        modalTimerId = setTimeout(openModalWindow, 10000); //! раздел функций
+        modalTimerId = setTimeout(openModalWindow, 100000);
+  const forms = document.querySelectorAll('form'),
+        messages = {
+    loading: 'Загрузка',
+    success: 'Спасибо! Скоро свяжемся с вами!',
+    failure: 'Сервер грустит'
+  }; //! раздел функций
 
   function hideTabContent() {
     tabsContent.forEach(function (tab) {
@@ -237,6 +243,35 @@ document.addEventListener('DOMContentLoaded', () => {
       openModalWindow();
       window.removeEventListener('scroll', showModalByScroll);
     }
+  }
+
+  function postData(form) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = messages.loading;
+      form.append(statusMessage); //создание запроса
+
+      const request = new XMLHttpRequest(); //конструкция данных из форм
+
+      const formData = new FormData(form); //настройка, куда и как отправить данные
+
+      request.open('POST', 'server.php'); //отправка данных
+
+      request.send(formData);
+      request.addEventListener('load', function () {
+        if (request.status === 200) {
+          statusMessage.textContent = messages.success;
+          form.reset();
+          setTimeout(function () {
+            statusMessage.remove();
+          }, 3400);
+        } else {
+          statusMessage.textContent = messages.failure;
+        }
+      });
+    });
   } //! обработчики событий
 
 
@@ -279,7 +314,11 @@ document.addEventListener('DOMContentLoaded', () => {
   setClock('.timer', deadline);
   new MenuCard('Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229, 'img/tabs/vegy.jpg').render();
   new MenuCard('Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 550, 'img/tabs/elite.jpg').render();
-  new MenuCard('Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 430, 'img/tabs/post.jpg').render();
+  new MenuCard('Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 430, 'img/tabs/post.jpg').render(); //привязка функций к каждой форме
+
+  forms.forEach(function (item) {
+    postData(item);
+  });
 });
 
 /***/ })
