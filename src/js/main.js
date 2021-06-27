@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			  loading: 'Загрузка',
 			  success: 'Спасибо! Скоро свяжемся с вами!',
 			  failure: 'Сервер грустит'
-		  }
+		  };
 
 	//! раздел функций
 	function hideTabContent() {
@@ -161,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		form.addEventListener('submit', function(event) {
 			event.preventDefault();
 
+			//создание и добавление элемента с сообщением пользователю
 			const statusMessage = document.createElement('div');
 			statusMessage.classList.add('status');
 			statusMessage.textContent = messages.loading;
@@ -170,14 +171,26 @@ document.addEventListener('DOMContentLoaded', () => {
 			const request = new XMLHttpRequest();
 			//конструкция данных из форм
 			const formData = new FormData(form);
+			//пустой объект для formData
+			const object = {};
+
+			//перенос formdata в ранее созданный пустой объект
+			formData.forEach(function(value, key) {
+				object[key] = value;
+			});
+
+			console.log(object);
 
 			//настройка, куда и как отправить данные
 			request.open('POST', 'server.php');
+			//заголовок отправляемых данных
+			request.setRequestHeader('Content-type', 'application/JSON');
 			//отправка данных
-			request.send(formData);
+			request.send(JSON.stringify(object));
 
 			request.addEventListener('load', function() {
 				if (request.status === 200) {
+					console.log(request.response);
 					statusMessage.textContent = messages.success;
 					form.reset();
 					setTimeout(function() {

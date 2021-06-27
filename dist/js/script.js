@@ -247,7 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function postData(form) {
     form.addEventListener('submit', function (event) {
-      event.preventDefault();
+      event.preventDefault(); //создание и добавление элемента с сообщением пользователю
+
       const statusMessage = document.createElement('div');
       statusMessage.classList.add('status');
       statusMessage.textContent = messages.loading;
@@ -255,13 +256,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const request = new XMLHttpRequest(); //конструкция данных из форм
 
-      const formData = new FormData(form); //настройка, куда и как отправить данные
+      const formData = new FormData(form); //пустой объект для formData
 
-      request.open('POST', 'server.php'); //отправка данных
+      const object = {}; //перенос formdata в ранее созданный пустой объект
 
-      request.send(formData);
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+      console.log(object); //настройка, куда и как отправить данные
+
+      request.open('POST', 'server.php'); //заголовок отправляемых данных
+
+      request.setRequestHeader('Content-type', 'application/JSON'); //отправка данных
+
+      request.send(JSON.stringify(object));
       request.addEventListener('load', function () {
         if (request.status === 200) {
+          console.log(request.response);
           statusMessage.textContent = messages.success;
           form.reset();
           setTimeout(function () {
