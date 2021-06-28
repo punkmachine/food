@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		  tabsParent = document.querySelector('.tabheader__items');
 	const deadline = '2021-07-15T15:00:00.000Z';
 	const modalOpen = document.querySelectorAll('[data-modal-open]'),
-		  modalClose = document.querySelector('[data-modal-close]'),
 		  modalWindow = document.querySelector('.modal'),
 		  modalTimerId = setTimeout(openModalWindow, 100000);
 	const forms = document.querySelectorAll('form'),
@@ -164,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			//создание и добавление элемента с сообщением пользователю
 			const statusMessage = document.createElement('div');
 			statusMessage.classList.add('status');
-			statusMessage.textContent = messages.loading;
+			//showThanksModal(messages.loading);
 			form.append(statusMessage);
 
 			//создание запроса
@@ -179,8 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				object[key] = value;
 			});
 
-			console.log(object);
-
 			//настройка, куда и как отправить данные
 			request.open('POST', 'server.php');
 			//заголовок отправляемых данных
@@ -191,16 +188,44 @@ document.addEventListener('DOMContentLoaded', () => {
 			request.addEventListener('load', function() {
 				if (request.status === 200) {
 					console.log(request.response);
-					statusMessage.textContent = messages.success;
+					showThanksModal(messages.success);
 					form.reset();
-					setTimeout(function() {
-						statusMessage.remove();
-					}, 3400);
+					statusMessage.remove();
 				} else {
-					statusMessage.textContent = messages.failure;
+					showThanksModal(messages.failure);
 				}
 			});
 		});
+	}
+
+	//показ шаблонов при отправке данных на сервер
+	function showThanksModal(message) {
+		const prevModalDialog = document.querySelector('.modal__dialog'),
+			  thanksModal = document.createElement('div');
+
+		//скрываем контент в модальном окне.
+		prevModalDialog.classList.add('hide');
+		openModalWindow();
+
+		//создание нового элемента
+		thanksModal.classList.add('modal__dialog');
+		thanksModal.innerHTML = `
+			<div class="modal__content">
+				<div data-modal-close class="modal__close">&times;</div>
+				<div class="modal__title">${message}</div>
+			</div>
+		`;
+
+		//помещение элемента на страницу
+		document.querySelector('.modal').append(thanksModal);
+
+		//удаление блока с сообщением об отправке по таймеру
+		setTimeout(function() {
+			thanksModal.remove();
+			prevModalDialog.classList.add('show');
+			prevModalDialog.classList.remove('hide');
+			closeModalWindow();
+		}, 4000);
 	}
 
 	//! обработчики событий
@@ -227,10 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		btn.addEventListener('click', openModalWindow);
 	});
 
-	modalClose.addEventListener('click', closeModalWindow);
-
 	modalWindow.addEventListener('click', function(event) {
-		if (event.target === modalWindow) {
+		if (event.target === modalWindow || event.target.getAttribute('data-modal-close') == '') {
 			closeModalWindow();
 		}
 	});
