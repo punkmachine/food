@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalTimerId = setTimeout(openModalWindow, 100000);
   const forms = document.querySelectorAll('form'),
         messages = {
-    loading: 'Загрузка',
+    loading: 'icons/spinner.svg',
     success: 'Спасибо! Скоро свяжемся с вами!',
     failure: 'Сервер грустит'
   }; //! раздел функций
@@ -248,10 +248,13 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', function (event) {
       event.preventDefault(); //создание и добавление элемента с сообщением пользователю
 
-      const statusMessage = document.createElement('div');
-      statusMessage.classList.add('status'); //showThanksModal(messages.loading);
-
-      form.append(statusMessage); //создание запроса
+      const statusMessage = document.createElement('img');
+      statusMessage.src = messages.loading;
+      statusMessage.style.cssText = `
+				display: block;
+				margin: 10 auto;
+			`;
+      form.insertAdjacentElement('afterend', statusMessage); //создание запроса
 
       const request = new XMLHttpRequest(); //конструкция данных из форм
 
