@@ -169,34 +169,23 @@ document.addEventListener('DOMContentLoaded', () => {
 			`;
 			form.insertAdjacentElement('afterend', statusMessage);
 
-			//создание запроса
-			const request = new XMLHttpRequest();
 			//конструкция данных из форм
 			const formData = new FormData(form);
-			//пустой объект для formData
-			const object = {};
 
-			//перенос formdata в ранее созданный пустой объект
-			formData.forEach(function(value, key) {
-				object[key] = value;
-			});
-
-			//настройка, куда и как отправить данные
-			request.open('POST', 'server.php');
-			//заголовок отправляемых данных
-			request.setRequestHeader('Content-type', 'application/JSON');
-			//отправка данных
-			request.send(JSON.stringify(object));
-
-			request.addEventListener('load', function() {
-				if (request.status === 200) {
-					console.log(request.response);
-					showThanksModal(messages.success);
-					form.reset();
-					statusMessage.remove();
-				} else {
-					showThanksModal(messages.failure);
-				}
+			fetch('server.php', {
+				method: "POST",
+				body: formData,
+				// headers: {
+				// 	'Content-type': 'application/json'
+				// }
+			}).then(function(data) {
+				console.log(data);
+				showThanksModal(messages.success);
+				statusMessage.remove();
+			}).catch(function() {
+				showThanksModal(messages.failure);
+			}).finally(function() {
+				form.reset();
 			});
 		});
 	}
@@ -295,4 +284,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	forms.forEach(function(item) {
 		postData(item);
 	});
+
+	// fetch('https://jsonplaceholder.typicode.com/posts', {
+	// 	method: "POST",
+	// 	body: JSON.stringify({name: "Alex"}),
+	// 	headers: {
+	// 		'Content-type': 'application/json'
+	// 	}
+	// })
+	// 	.then(response => response.json())
+	// 	.then(json => console.log(json));
 });
