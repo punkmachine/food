@@ -292,4 +292,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	forms.forEach(function(item) {
 		postData(item);
 	});
+
+	//получаю доступ к бд
+	fetch('http://localhost:3000/menu').then(
+		function(data) {
+			return data.json();
+		}
+	).then(
+		function(res) {
+			console.log(res);
+		}
+	);
 });
