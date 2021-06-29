@@ -172,6 +172,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			//конструкция данных из форм
 			const formData = new FormData(form);
 
+			// //объект для переноса форм дата.
+			// const object = {}; 
+			// //перенос formdata в ранее созданный пустой объект
+			// formData.forEach(function (value, key) {
+			// 	object[key] = value;
+			// });
+
 			fetch('server.php', {
 				method: "POST",
 				body: formData,
