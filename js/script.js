@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			event.preventDefault();
 
 			//создание и добавление элемента с сообщением пользователю
-			const statusMessage = document.createElement('img');
+			let statusMessage = document.createElement('img');
 			statusMessage.src = messages.loading;
 			statusMessage.style.cssText = `
 				display: block;
@@ -172,19 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
 			//конструкция данных из форм
 			const formData = new FormData(form);
 
-			// //объект для переноса форм дата.
-			// const object = {}; 
-			// //перенос formdata в ранее созданный пустой объект
-			// formData.forEach(function (value, key) {
-			// 	object[key] = value;
-			// });
+			//объект для переноса форм дата.
+			const object = {}; 
+			//перенос formdata в ранее созданный пустой объект
+			formData.forEach(function (value, key) {
+				object[key] = value;
+			});
 
+			//отправка запросов
 			fetch('server.php', {
 				method: "POST",
-				body: formData,
-				// headers: {
-				// 	'Content-type': 'application/json'
-				// }
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(object)
 			}).then(function(data) {
 				console.log(data);
 				showThanksModal(messages.success);
