@@ -1,0 +1,26 @@
+{
+  "name": "food",
+  "version": "1.0.0",
+  "description": "learning js",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PunkMachinLearning/food.git"
+  },
+  "keywords": [
+    "learn",
+    "js"
+  ],
+  "author": "PunkMachin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PunkMachinLearning/food/issues"
+  },
+  "homepage": "https://github.com/PunkMachinLearning/food#readme",
+  "devDependencies": {
+    "json-server": "^0.16.3"
+  }
+}
