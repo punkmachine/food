@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			//конструкция данных из форм
 			const formData = new FormData(form);
-			
+
 			//Превращение данных в матрицу, потом в объект, потом в JSON.
 			const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
@@ -235,6 +235,17 @@ document.addEventListener('DOMContentLoaded', () => {
 		}, 4000);
 	}
 
+	//получение карточек меню
+	async function getResources(url) {
+		const res = await fetch(url);
+
+		if (!res.ok) {
+			throw new Error(`Не получается обработать fetch ${url}, статус: ${res.status}`);
+		}
+
+		return await res.json();
+	}
+
 	//! обработчики событий
 	tabsParent.addEventListener('click', function(event) {
 		//для того, чтобы часто не писать полностью.
@@ -279,32 +290,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	showTabContent(0);
 	setClock('.timer', deadline);
 
-	//получаю доступ к бд
-	fetch('http://localhost:3000/menu').then(
-		function(data) {
-			return data.json();
-		}
-	).then(
-		function(res) {
-			console.log(res);
-		}
-	);
-
-	new MenuCard('Меню "Фитнес"', 
-		'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 
-		229, 
-		'img/tabs/vegy.jpg'
-	).render();
-	new MenuCard('Меню “Премиум”', 
-		'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-		550, 
-		'img/tabs/elite.jpg'
-	).render();
-	new MenuCard('Меню "Постное"', 
-		'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 
-		430, 
-		'img/tabs/post.jpg'
-	).render();
+	getResources('http://localhost:3000/menu')
+		.then(function(data) {
+			data.forEach(function({title, description, price, img}) {
+				new MenuCard(title, description, price, img).render();
+			});
+		});
 
 	//привязка функций к каждой форме
 	forms.forEach(function(item) {
