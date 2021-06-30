@@ -1,3 +1,5 @@
+//TODO: Сделать 2 файла, один для menucard, другой для данных от модальных окон.
+
 'use strict';
 
 //После загрузки DOM.
@@ -156,7 +158,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	function postData(form) {
+	//настройка запроса, посыл запроса на сервер и получение ответа
+	async function postData(url, data) {
+		const res = await fetch(url, {
+			method: "POST",
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: data
+		});
+
+		return await res.json();
+	}
+
+	//привязка постов 
+	function bindPostData(form) {
 		form.addEventListener('submit', function(event) {
 			event.preventDefault();
 
@@ -179,14 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				object[key] = value;
 			});
 
-			//отправка запросов
-			fetch('server.php', {
-				method: "POST",
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(object)
-			}).then(function(data) {
+			//обработка промиса
+			postData('http://localhost:3000/requests', JSON.stringify(object))
+			.then(function(data) {
 				console.log(data);
 				showThanksModal(messages.success);
 				statusMessage.remove();
@@ -272,6 +283,17 @@ document.addEventListener('DOMContentLoaded', () => {
 	showTabContent(0);
 	setClock('.timer', deadline);
 
+	//получаю доступ к бд
+	fetch('http://localhost:3000/menu').then(
+		function(data) {
+			return data.json();
+		}
+	).then(
+		function(res) {
+			console.log(res);
+		}
+	);
+
 	new MenuCard('Меню "Фитнес"', 
 		'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 
 		229, 
@@ -290,17 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	//привязка функций к каждой форме
 	forms.forEach(function(item) {
-		postData(item);
+		bindPostData(item);
 	});
-
-	//получаю доступ к бд
-	fetch('http://localhost:3000/menu').then(
-		function(data) {
-			return data.json();
-		}
-	).then(
-		function(res) {
-			console.log(res);
-		}
-	);
 });
