@@ -187,16 +187,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			//конструкция данных из форм
 			const formData = new FormData(form);
-
-			//объект для переноса форм дата.
-			const object = {}; 
-			//перенос formdata в ранее созданный пустой объект
-			formData.forEach(function (value, key) {
-				object[key] = value;
-			});
+			
+			//Превращение данных в матрицу, потом в объект, потом в JSON.
+			const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
 			//обработка промиса
-			postData('http://localhost:3000/requests', JSON.stringify(object))
+			postData('http://localhost:3000/requests', json)
 			.then(function(data) {
 				console.log(data);
 				showThanksModal(messages.success);
