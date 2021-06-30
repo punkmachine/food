@@ -290,12 +290,23 @@ document.addEventListener('DOMContentLoaded', () => {
 	showTabContent(0);
 	setClock('.timer', deadline);
 
+	//мой запрос на сервер, для отображения карточек меню
 	getResources('http://localhost:3000/menu')
 		.then(function(data) {
 			data.forEach(function({title, description, price, img}) {
 				new MenuCard(title, description, price, img).render();
 			});
 		});
+
+	//запрос на сервер для отображения карточек меню с axios
+	// axios.get('http://localhost:3000/menu')
+	// 	.then(function(data) {
+	// 		data.data.forEach(function({title, description, price, img}) {
+	// 			new MenuCard(title, description, price, img).render();
+	// 		});
+	// 	}).catch(function(err) {
+	// 		console.log('Да блять нахуй заебал этот ваш аксиос');
+	// 	});
 
 	//привязка функций к каждой форме
 	forms.forEach(function(item) {
