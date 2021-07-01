@@ -57,6 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			  success: 'Спасибо! Скоро свяжемся с вами!',
 			  failure: 'Сервер грустит'
 		  };
+	const slider = document.querySelector('.offer__slider'),
+		  arraySlide = slider.querySelectorAll('.offer__slide'),
+		  arrowSliderNext = slider.querySelector('.offer__slider-next'),
+		  arrowSliderPrev = slider.querySelector('.offer__slider-prev'),
+		  currentSlide = slider.querySelector('#current'),
+		  totalSlide = slider.querySelector('#total');
+	let countSlide = +currentSlide.innerHTML;
 
 	//! раздел функций
 	function hideTabContent() {
@@ -246,6 +253,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		return await res.json();
 	}
 
+	function showSlide(index) {
+		arraySlide.forEach(function(slide) {
+			slide.classList.add('hide');
+			slide.classList.remove('show');
+		})
+
+		arraySlide[index].classList.add('show');
+		arraySlide[index].classList.remove('hide');
+	}
+
 	//! обработчики событий
 	tabsParent.addEventListener('click', function(event) {
 		//для того, чтобы часто не писать полностью.
@@ -284,6 +301,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	//при долистывании до конца - показывать модалку.
 	window.addEventListener('scroll', showModalByScroll);
+
+	arrowSliderNext.addEventListener('click', function() {
+		if (countSlide == +totalSlide.innerHTML) {
+			countSlide = 1;
+		} else {
+			countSlide += 1;
+		}
+
+		showSlide(countSlide-1);
+
+		currentSlide.innerHTML = getZero(countSlide);
+	});
+
+	arrowSliderPrev.addEventListener('click', function() {
+		if (countSlide == 1) {
+			countSlide = +totalSlide.innerHTML;
+		} else {
+			countSlide -= 1;
+		}
+
+		showSlide(countSlide-1);
+
+		currentSlide.innerHTML = getZero(countSlide);
+	});
 
 	//! раздел вызова функций и методов классов.
 	hideTabContent();
