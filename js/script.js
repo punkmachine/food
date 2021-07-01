@@ -61,8 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		  arraySlide = slider.querySelectorAll('.offer__slide'),
 		  arrowSliderNext = slider.querySelector('.offer__slider-next'),
 		  arrowSliderPrev = slider.querySelector('.offer__slider-prev'),
-		  currentSlide = slider.querySelector('#current'),
-		  totalSlide = slider.querySelector('#total');
+		  currentSlide = slider.querySelector('#current');
 	let countSlide = +currentSlide.innerHTML;
 
 	//! раздел функций
@@ -257,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		arraySlide.forEach(function(slide) {
 			slide.classList.add('hide');
 			slide.classList.remove('show');
-		})
+		});
 
 		arraySlide[index].classList.add('show');
 		arraySlide[index].classList.remove('hide');
@@ -303,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	window.addEventListener('scroll', showModalByScroll);
 
 	arrowSliderNext.addEventListener('click', function() {
-		if (countSlide == +totalSlide.innerHTML) {
+		if (countSlide == arraySlide.length) {
 			countSlide = 1;
 		} else {
 			countSlide += 1;
@@ -316,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	arrowSliderPrev.addEventListener('click', function() {
 		if (countSlide == 1) {
-			countSlide = +totalSlide.innerHTML;
+			countSlide = +arraySlide.length;
 		} else {
 			countSlide -= 1;
 		}
