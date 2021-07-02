@@ -1,4 +1,5 @@
 //TODO: Сделать 2 файла, один для menucard, другой для данных от модальных окон.
+//TODO: Отрефакторить код, было плохой идеей разделять его так, как разделяю сейчас. Сделать так, чтобы сначала был реализован функционал таймера, потом слайдера, потом модалок, потом карточек меню.
 
 'use strict';
 
@@ -63,6 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		  arrowSliderPrev = slider.querySelector('.offer__slider-prev'),
 		  currentSlide = slider.querySelector('#current');
 	let countSlide = +currentSlide.innerHTML;
+	const indicators = document.createElement('ol');
+	//массив с точками в тавигации слайдера
+	let dots = [];
 
 	//! раздел функций
 	function hideTabContent() {
@@ -311,6 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		showSlide(countSlide-1);
 
 		currentSlide.innerHTML = getZero(countSlide);
+
+		//удаление класса активности у всех точек
+		dots.forEach(function(dot) {
+			dot.classList.remove('dot_active');
+		});
+
+		dots[countSlide-1].classList.add('dot_active');
 	});
 
 	arrowSliderPrev.addEventListener('click', function() {
@@ -323,9 +334,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		showSlide(countSlide-1);
 
 		currentSlide.innerHTML = getZero(countSlide);
+
+		//удаление класса активности у всех точек
+		dots.forEach(function(dot) {
+			dot.classList.remove('dot_active');
+		});
+
+		dots[countSlide-1].classList.add('dot_active');
 	});
 
-	//! раздел вызова функций и методов классов.
+	//! раздел вызова функций, методов классов, просто кода
 	hideTabContent();
 	showTabContent(0);
 	setClock('.timer', deadline);
@@ -351,5 +369,45 @@ document.addEventListener('DOMContentLoaded', () => {
 	//привязка функций к каждой форме
 	forms.forEach(function(item) {
 		bindPostData(item);
+	});
+
+	//установка слайдеру position relative
+	slider.style.position = 'relative';
+	
+	//индикаторы слайдера
+	indicators.classList.add('carousel-indicators');
+	slider.append(indicators);
+
+	//создание точек индикаторов
+	for (let i = 0; i < arraySlide.length; i++) {
+		const dot = document.createElement('li');
+
+		dot.setAttribute('data-slide-to', i + 1);
+		dot.classList.add('dot');
+		
+		if (i == 0) {
+			dot.classList.add('dot_active');
+		}
+
+		indicators.append(dot);
+		dots.push(dot);
+	}
+
+	dots.forEach(function(dot) {
+		dot.addEventListener('click', function(event) {
+			const slideTo = event.target.getAttribute('data-slide-to');
+
+			countSlide = slideTo;
+			currentSlide.innerHTML = getZero(countSlide);
+			
+			//удаление класса активности у всех точек
+			dots.forEach(function(dot) {
+				dot.classList.remove('dot_active');
+			});
+
+			dots[countSlide-1].classList.add('dot_active');
+
+			showSlide(countSlide-1);
+		});
 	});
 });
