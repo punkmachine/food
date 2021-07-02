@@ -1,5 +1,3 @@
-//TODO: Сделать 2 файла, один для menucard, другой для данных от модальных окон.
-
 'use strict';
 
 //После загрузки DOM.
@@ -18,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	function closeModalWindow() {
 		modalWindow.classList.remove('modal_active');
 		document.body.style.overflow = '';
-
-		//TODO: при закрытии формы надо удалять thanksModal
 	}
 
 	function openModalWindow() {
@@ -345,13 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		arraySlide[index].classList.remove('hide');
 	}
 
-	arrowSliderNext.addEventListener('click', function() {
-		if (countSlide == arraySlide.length) {
-			countSlide = 1;
-		} else {
-			countSlide += 1;
-		}
-
+	function arrowOrDotsClick() {
 		showSlide(countSlide-1);
 
 		currentSlide.innerHTML = getZero(countSlide);
@@ -362,6 +352,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 
 		dots[countSlide-1].classList.add('dot_active');
+	}
+
+	arrowSliderNext.addEventListener('click', function() {
+		if (countSlide == arraySlide.length) {
+			countSlide = 1;
+		} else {
+			countSlide += 1;
+		}
+
+		arrowOrDotsClick();
 	});
 
 	arrowSliderPrev.addEventListener('click', function() {
@@ -371,16 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			countSlide -= 1;
 		}
 
-		showSlide(countSlide-1);
-
-		currentSlide.innerHTML = getZero(countSlide);
-
-		//удаление класса активности у всех точек
-		dots.forEach(function(dot) {
-			dot.classList.remove('dot_active');
-		});
-
-		dots[countSlide-1].classList.add('dot_active');
+		arrowOrDotsClick();
 	});
 
 	slider.style.position = 'relative';
@@ -411,14 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			countSlide = +slideTo;
 			currentSlide.innerHTML = getZero(countSlide);
 
-			//удаление класса активности у всех точек
-			dots.forEach(function(dot) {
-				dot.classList.remove('dot_active');
-			});
-
-			dots[countSlide-1].classList.add('dot_active');
-
-			showSlide(countSlide-1);
+			arrowOrDotsClick();
 		});
 	});
 });
