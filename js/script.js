@@ -1,54 +1,10 @@
 //TODO: Сделать 2 файла, один для menucard, другой для данных от модальных окон.
-//TODO: Отрефакторить код, было плохой идеей разделять его так, как разделяю сейчас. Сделать так, чтобы сначала был реализован функционал таймера, потом слайдера, потом модалок, потом карточек меню.
 
 'use strict';
 
 //После загрузки DOM.
 document.addEventListener('DOMContentLoaded', () => {
-	//! классы
-	class MenuCard {
-		constructor(title, description, price, img, parent = '.menu__field .container', ...classes) {
-			this.title = title;
-			this.description = description;
-			this.price = price;
-			this.img = img;
-			this.parent = document.querySelector(parent);
-			this.classes = classes;
-		}
-
-		render() {
-			const element = document.createElement('div');
-
-			//если нет классов, которые мы передавали в конструктор, добавить базовый.
-			if (this.classes.length === 0) {
-				this.classes.push('menu__item');
-			}
-
-			//назначение классов селекторам
-			this.classes.forEach(function(className) {
-				element.classList.add(className);
-			});
-
-			element.innerHTML = `
-				<img src="${this.img}" alt="${this.title}">
-				<h3 class="menu__item-subtitle">${this.title}</h3>
-				<div class="menu__item-descr">${this.description}</div>
-				<div class="menu__item-divider"></div>
-				<div class="menu__item-price">
-					<div class="menu__item-cost">Цена:</div>
-					<div class="menu__item-total"><span>${this.price}</span> грн/день</div>
-				</div>
-			`;
-
-			this.parent.append(element);
-		}
-	}
-
-	//! раздел констант
-	const tabs = document.querySelectorAll('.tabheader__item'),
-		  tabsContent = document.querySelectorAll('.tabcontent'),
-		  tabsParent = document.querySelector('.tabheader__items');
-	const deadline = '2021-07-15T15:00:00.000Z';
+	//! МОДАЛЬНОЕ ОКНО.
 	const modalOpen = document.querySelectorAll('[data-modal-open]'),
 		  modalWindow = document.querySelector('.modal'),
 		  modalTimerId = setTimeout(openModalWindow, 100000);
@@ -58,99 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			  success: 'Спасибо! Скоро свяжемся с вами!',
 			  failure: 'Сервер грустит'
 		  };
-	const slider = document.querySelector('.offer__slider'),
-		  arraySlide = slider.querySelectorAll('.offer__slide'),
-		  arrowSliderNext = slider.querySelector('.offer__slider-next'),
-		  arrowSliderPrev = slider.querySelector('.offer__slider-prev'),
-		  currentSlide = slider.querySelector('#current');
-	let countSlide = +currentSlide.innerHTML;
-	const indicators = document.createElement('ol');
-	//массив с точками в тавигации слайдера
-	let dots = [];
-
-	//! раздел функций
-	function hideTabContent() {
-		tabsContent.forEach(function(tab) {
-			tab.classList.add('hide');
-			tab.classList.remove('show', 'fade');
-		});
-
-		tabs.forEach(function(tab) {
-			tab.classList.remove('tabheader__item_active');
-		});
-	}
-
-	function showTabContent(number) {
-		tabsContent[number].classList.add('show', 'fade');
-		tabsContent[number].classList.remove('hide');
-		tabs[number].classList.add('tabheader__item_active');
-	}
-
-	function getTimeRemaining(endtime) {
-		//получение разницы между планируемым временем и текущим
-		const t = Date.parse(endtime) - Date.parse(new Date()),
-			  days = Math.floor(t / 86400000),
-			  hours = Math.floor((t / 3600000) % 24),
-			  minutes = Math.floor((t / 60000) % 60),
-			  seconds = Math.floor((t / 1000) % 60);
-		
-		//возвращение значений в виде объекта
-		return {
-			'total': t,
-			'days': days,
-			'hours': hours,
-			'minutes': minutes,
-			'seconds': seconds
-		};
-	}
-
-	//для подставления нуля в таймер, если там стоят не двухзначные дни\часы.
-	function getZero(num) {
-		if (num >= 0 && num < 10) {
-			return `0${num}`;
-		} else {
-			return num;
-		}
-	}
-
-	function setClock(selector, endtime) {
-		//получение объектов в которые надо будет запихать разницу
-		const timer = document.querySelector(selector),
-			  days = timer.querySelector('#days'),
-			  hours = timer.querySelector('#hours'),
-			  minutes = timer.querySelector('#minutes'),
-			  seconds = timer.querySelector('#seconds'),
-			  //переменная таймера
-			  timeInterval = setInterval(updateClock, 1000),
-			  //для проверки актуальности таймера изначально
-			  time = getTimeRemaining(endtime);
-
-		function updateClock() {
-			const t = getTimeRemaining(endtime);
-
-			//занесение необходимых значений в объекты на странице
-			days.innerHTML = getZero(t.days);
-			hours.innerHTML = getZero(t.hours);
-			minutes.innerHTML = getZero(t.minutes);
-			seconds.innerHTML = getZero(t.seconds);
-
-			//остановка таймера.
-			if (t.total <= 0) {
-				clearInterval(timeInterval);
-			}
-		}
-
-		//для того, чтобы убрать мигание даты при загрузке страницы.
-		if (time.total > 0 ) {
-			updateClock();
-		} else {
-			clearInterval(timeInterval);
-		}
-	}
 
 	function closeModalWindow() {
 		modalWindow.classList.remove('modal_active');
 		document.body.style.overflow = '';
+
+		//TODO: при закрытии формы надо удалять thanksModal
 	}
 
 	function openModalWindow() {
@@ -245,46 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		}, 4000);
 	}
 
-	//получение карточек меню
-	async function getResources(url) {
-		const res = await fetch(url);
-
-		if (!res.ok) {
-			throw new Error(`Не получается обработать fetch ${url}, статус: ${res.status}`);
-		}
-
-		return await res.json();
-	}
-
-	function showSlide(index) {
-		arraySlide.forEach(function(slide) {
-			slide.classList.add('hide');
-			slide.classList.remove('show');
-		});
-
-		arraySlide[index].classList.add('show');
-		arraySlide[index].classList.remove('hide');
-	}
-
-	//! обработчики событий
-	tabsParent.addEventListener('click', function(event) {
-		//для того, чтобы часто не писать полностью.
-		const target = event.target;
-
-		//проверяем клик на нужный элемент
-		if (target && target.classList.contains('tabheader__item')) {
-			//для каждого таба, если кликаем, и один из перебираемых элементов
-			//совпадает с тем, на который кликнули, вызываем функцию скрытия 
-			//всех табов и показываем один из них после. 
-			tabs.forEach(function(tab, item) {
-				if (target == tab) {
-					hideTabContent();
-					showTabContent(item);
-				}
-			});
-		}
-	});
-
 	//назначение на каждую кнопку открытия модалки.
 	modalOpen.forEach(function(btn) {
 		btn.addEventListener('click', openModalWindow);
@@ -304,6 +133,217 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	//при долистывании до конца - показывать модалку.
 	window.addEventListener('scroll', showModalByScroll);
+
+	//привязка функций к каждой форме
+	forms.forEach(function(item) {
+		bindPostData(item);
+	});
+
+
+	//! ТАБЫ.
+	const tabs = document.querySelectorAll('.tabheader__item'),
+		  tabsContent = document.querySelectorAll('.tabcontent'),
+		  tabsParent = document.querySelector('.tabheader__items');
+	
+	function hideTabContent() {
+		tabsContent.forEach(function(tab) {
+			tab.classList.add('hide');
+			tab.classList.remove('show', 'fade');
+		});
+
+		tabs.forEach(function(tab) {
+			tab.classList.remove('tabheader__item_active');
+		});
+	}
+	
+	function showTabContent(number) {
+		tabsContent[number].classList.add('show', 'fade');
+		tabsContent[number].classList.remove('hide');
+		tabs[number].classList.add('tabheader__item_active');
+	}
+
+	tabsParent.addEventListener('click', function(event) {
+		//для того, чтобы часто не писать полностью.
+		const target = event.target;
+
+		//проверяем клик на нужный элемент
+		if (target && target.classList.contains('tabheader__item')) {
+			//для каждого таба, если кликаем, и один из перебираемых элементов
+			//совпадает с тем, на который кликнули, вызываем функцию скрытия 
+			//всех табов и показываем один из них после. 
+			tabs.forEach(function(tab, item) {
+				if (target == tab) {
+					hideTabContent();
+					showTabContent(item);
+				}
+			});
+		}
+	});
+
+	hideTabContent();
+	showTabContent(0);
+
+
+
+	//! ТАЙМЕР.
+	const deadline = '2021-07-15T15:00:00.000Z';
+
+	function getTimeRemaining(endtime) {
+		//получение разницы между планируемым временем и текущим
+		const t = Date.parse(endtime) - Date.parse(new Date()),
+			  days = Math.floor(t / 86400000),
+			  hours = Math.floor((t / 3600000) % 24),
+			  minutes = Math.floor((t / 60000) % 60),
+			  seconds = Math.floor((t / 1000) % 60);
+		
+		//возвращение значений в виде объекта
+		return {
+			'total': t,
+			'days': days,
+			'hours': hours,
+			'minutes': minutes,
+			'seconds': seconds
+		};
+	}
+
+	//для подставления нуля в таймер, если там стоят не двухзначные дни\часы.
+	function getZero(num) {
+		if (num >= 0 && num < 10) {
+			return `0${num}`;
+		} else {
+			return num;
+		}
+	}
+
+	function setClock(selector, endtime) {
+		//получение объектов в которые надо будет запихать разницу
+		const timer = document.querySelector(selector),
+			  days = timer.querySelector('#days'),
+			  hours = timer.querySelector('#hours'),
+			  minutes = timer.querySelector('#minutes'),
+			  seconds = timer.querySelector('#seconds'),
+			  //переменная таймера
+			  timeInterval = setInterval(updateClock, 1000),
+			  //для проверки актуальности таймера изначально
+			  time = getTimeRemaining(endtime);
+
+		function updateClock() {
+			const t = getTimeRemaining(endtime);
+
+			//занесение необходимых значений в объекты на странице
+			days.innerHTML = getZero(t.days);
+			hours.innerHTML = getZero(t.hours);
+			minutes.innerHTML = getZero(t.minutes);
+			seconds.innerHTML = getZero(t.seconds);
+
+			//остановка таймера.
+			if (t.total <= 0) {
+				clearInterval(timeInterval);
+			}
+		}
+
+		//для того, чтобы убрать мигание даты при загрузке страницы.
+		if (time.total > 0 ) {
+			updateClock();
+		} else {
+			clearInterval(timeInterval);
+		}
+	}
+
+	setClock('.timer', deadline);
+
+
+
+	//! КАРТОЧКИ МЕНЮ.
+	class MenuCard {
+		constructor(title, description, price, img, parent = '.menu__field .container', ...classes) {
+			this.title = title;
+			this.description = description;
+			this.price = price;
+			this.img = img;
+			this.parent = document.querySelector(parent);
+			this.classes = classes;
+		}
+
+		render() {
+			const element = document.createElement('div');
+
+			//если нет классов, которые мы передавали в конструктор, добавить базовый.
+			if (this.classes.length === 0) {
+				this.classes.push('menu__item');
+			}
+
+			//назначение классов селекторам
+			this.classes.forEach(function(className) {
+				element.classList.add(className);
+			});
+
+			element.innerHTML = `
+				<img src="${this.img}" alt="${this.title}">
+				<h3 class="menu__item-subtitle">${this.title}</h3>
+				<div class="menu__item-descr">${this.description}</div>
+				<div class="menu__item-divider"></div>
+				<div class="menu__item-price">
+					<div class="menu__item-cost">Цена:</div>
+					<div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+				</div>
+			`;
+
+			this.parent.append(element);
+		}
+	}
+
+	//получение карточек меню
+	async function getResources(url) {
+		const res = await fetch(url);
+
+		if (!res.ok) {
+			throw new Error(`Не получается обработать fetch ${url}, статус: ${res.status}`);
+		}
+
+		return await res.json();
+	}
+
+	//мой запрос на сервер, для отображения карточек меню
+	getResources('http://localhost:3000/menu')
+	.then(function(data) {
+		data.forEach(function({title, description, price, img}) {
+			new MenuCard(title, description, price, img).render();
+		});
+	});
+
+	//запрос на сервер для отображения карточек меню с axios
+	// axios.get('http://localhost:3000/menu')
+	// 	.then(function(data) {
+	// 		data.data.forEach(function({title, description, price, img}) {
+	// 			new MenuCard(title, description, price, img).render();
+	// 		});
+	// 	}).catch(function(err) {
+	// 		console.log('Да блять нахуй заебал этот ваш аксиос');
+	// 	});
+	
+
+	
+	//! СЛАЙДЕР.
+	const slider = document.querySelector('.offer__slider'),
+		  arraySlide = slider.querySelectorAll('.offer__slide'),
+		  arrowSliderNext = slider.querySelector('.offer__slider-next'),
+		  arrowSliderPrev = slider.querySelector('.offer__slider-prev'),
+		  currentSlide = slider.querySelector('#current');
+	let countSlide = +currentSlide.innerHTML;
+	const indicators = document.createElement('ol');
+	//массив с точками в тавигации слайдера
+	let dots = [];
+
+	function showSlide(index) {
+		arraySlide.forEach(function(slide) {
+			slide.classList.add('hide');
+			slide.classList.remove('show');
+		});
+
+		arraySlide[index].classList.add('show');
+		arraySlide[index].classList.remove('hide');
+	}
 
 	arrowSliderNext.addEventListener('click', function() {
 		if (countSlide == arraySlide.length) {
@@ -343,35 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		dots[countSlide-1].classList.add('dot_active');
 	});
 
-	//! раздел вызова функций, методов классов, просто кода
-	hideTabContent();
-	showTabContent(0);
-	setClock('.timer', deadline);
-
-	//мой запрос на сервер, для отображения карточек меню
-	getResources('http://localhost:3000/menu')
-		.then(function(data) {
-			data.forEach(function({title, description, price, img}) {
-				new MenuCard(title, description, price, img).render();
-			});
-		});
-
-	//запрос на сервер для отображения карточек меню с axios
-	// axios.get('http://localhost:3000/menu')
-	// 	.then(function(data) {
-	// 		data.data.forEach(function({title, description, price, img}) {
-	// 			new MenuCard(title, description, price, img).render();
-	// 		});
-	// 	}).catch(function(err) {
-	// 		console.log('Да блять нахуй заебал этот ваш аксиос');
-	// 	});
-
-	//привязка функций к каждой форме
-	forms.forEach(function(item) {
-		bindPostData(item);
-	});
-
-	//установка слайдеру position relative
 	slider.style.position = 'relative';
 	
 	//индикаторы слайдера
@@ -399,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			countSlide = slideTo;
 			currentSlide.innerHTML = getZero(countSlide);
-			
+
 			//удаление класса активности у всех точек
 			dots.forEach(function(dot) {
 				dot.classList.remove('dot_active');
