@@ -498,6 +498,10 @@ a {
   transition: opacity .6s ease;
 }
 
+.offer .dot_active {
+  opacity: 1;
+}
+
 .calculating {
   padding: 50px 0;
 }

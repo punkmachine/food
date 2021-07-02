@@ -119,5 +119,9 @@
         border-bottom: 10px solid transparent;
         opacity: .5;
         transition: opacity .6s ease;
+
+        &_active {
+            opacity: 1;
+        }
     }
 }
