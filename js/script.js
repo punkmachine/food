@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		dot.addEventListener('click', function(event) {
 			const slideTo = event.target.getAttribute('data-slide-to');
 
-			countSlide = slideTo;
+			countSlide = +slideTo;
 			currentSlide.innerHTML = getZero(countSlide);
 
 			//удаление класса активности у всех точек
