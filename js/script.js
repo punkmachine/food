@@ -68,15 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			//обработка промиса
 			postData('http://localhost:3000/requests', json)
-			.then(function(data) {
-				console.log(data);
-				showThanksModal(messages.success);
-				statusMessage.remove();
-			}).catch(function() {
-				showThanksModal(messages.failure);
-			}).finally(function() {
-				form.reset();
-			});
+				.then(function(data) {
+					showThanksModal(messages.success);
+					statusMessage.remove();
+				}).catch(function() {
+					showThanksModal(messages.failure);
+				}).finally(function() {
+					form.reset();
+				});
 		});
 	}
 
@@ -182,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 	//! ТАЙМЕР.
-	const deadline = '2021-07-15T15:00:00.000Z';
+	const deadline = '2021-07-16T15:00:00.000Z';
 
 	function getTimeRemaining(endtime) {
 		//получение разницы между планируемым временем и текущим
@@ -275,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 
 			element.innerHTML = `
-				<img src="${this.img}" alt="${this.title}">
+				<img src="${this.img}" alt="${this.title}" title="${this.title}">
 				<h3 class="menu__item-subtitle">${this.title}</h3>
 				<div class="menu__item-descr">${this.description}</div>
 				<div class="menu__item-divider"></div>
@@ -302,11 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	//мой запрос на сервер, для отображения карточек меню
 	getResources('http://localhost:3000/menu')
-	.then(function(data) {
-		data.forEach(function({title, description, price, img}) {
-			new MenuCard(title, description, price, img).render();
+		.then(function(data) {
+			data.forEach(function({title, description, price, img}) {
+				new MenuCard(title, description, price, img).render();
+			});
 		});
-	});
 
 	//запрос на сервер для отображения карточек меню с axios
 	// axios.get('http://localhost:3000/menu')
