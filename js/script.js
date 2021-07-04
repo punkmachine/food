@@ -421,4 +421,72 @@ document.addEventListener('DOMContentLoaded', () => {
 			arrowOrDotsClick();
 		});
 	});
+
+
+
+	//! КАЛЬКУЛЯТОР.
+	let result = document.querySelector('.calculating__result span'),
+		sex, height, mass, age, ratio;
+
+	function caltTotal() {
+		if (!sex || !height || !mass || !age || !ratio) {
+			result.textContent = '____';
+			return;
+		}
+
+		if (sex === 'female') {
+			result.textContent = Math.round((447.6 + (9.2 * mass) + (3.1 * height) - (4.3 * age)) * ratio);
+		} else if (sex === 'male') {
+			result.textContent = Math.round((88.36 + (13.4 * mass) + (4.8 * height) - (5.7 * age)) * ratio);
+		}
+	}
+
+	function getStaticInformation(parentSelector, activClass) {
+		const elements = document.querySelectorAll(`${parentSelector} div`);
+
+		document.querySelector(parentSelector).addEventListener('click', function(event) {
+			if (event.target.getAttribute('data-ratio')) {
+				ratio = +event.target.getAttribute('data-ratio');
+			} else {
+				sex = event.target.getAttribute('id');
+			}
+
+			console.log(ratio, sex);
+
+			elements.forEach(function(elem) {
+				elem.classList.remove(activClass);
+			});
+
+			event.target.classList.add(activClass);
+
+			caltTotal();
+		});
+	}
+
+	function getDinamicInformation(selector) {
+		const input = document.querySelector(selector);
+
+		input.addEventListener('input', function() {
+			switch (input.getAttribute('id')) {
+				case 'height': 
+					height = +input.value;
+					break;
+				case 'weight':
+					mass = +input.value;
+					break;
+				case 'age':
+					age = +input.value;
+					break;
+			}
+
+			caltTotal();
+		});
+	}
+
+	caltTotal();
+	getStaticInformation('#gender', 'calculating__choose-item_active');
+	getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
+	getDinamicInformation('#height');
+	getDinamicInformation('#weight');
+	getDinamicInformation('#age');
 });
