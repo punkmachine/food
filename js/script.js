@@ -426,9 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	//! КАЛЬКУЛЯТОР.
 	let result = document.querySelector('.calculating__result span'),
-		sex = 'female',
-		ratio = 1.375, 
-		height, mass, age;
+		sex, ratio, height, mass, age;
 
 	function caltTotal() {
 		if (!sex || !height || !mass || !age || !ratio) {
@@ -450,8 +448,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			elem.addEventListener('click', function(event) {
 				if (event.target.getAttribute('data-ratio')) {
 					ratio = +event.target.getAttribute('data-ratio');
+					localStorage.setItem('ratio', event.target.getAttribute('data-ratio'));
 				} else {
 					sex = event.target.getAttribute('id');
+					localStorage.setItem('sex', event.target.getAttribute('id'));
 				}
 	
 				console.log(ratio, sex);
@@ -493,6 +493,39 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
+	function initLocalSettings(selector, activClass) {
+		const elements = document.querySelectorAll(selector);
+
+		elements.forEach(function(elem) {
+			elem.classList.remove(activClass);
+
+			if (elem.getAttribute('id') === localStorage.getItem('sex')) {
+				elem.classList.add(activClass);
+			}
+
+			if (elem.getAttribute('data-ratio') === localStorage.getItem('ratio')) {
+				elem.classList.add(activClass);
+			}
+		});
+	}
+
+	//установка значений в зависимости от локального хранилища
+	if (localStorage.getItem('sex')) {
+		sex = localStorage.getItem('sex');
+	} else {
+		sex = 'female';
+		localStorage.setItem('sex', 'female');
+	}
+
+	if (localStorage.getItem('ratio')) {
+		ratio = localStorage.getItem('ratio');
+	} else {
+		ratio = '1.375';
+		localStorage.setItem('ratio', 1.375);
+	}
+
+	initLocalSettings('#gender div', 'calculating__choose-item_active');
+	initLocalSettings('.calculating__choose_big div', 'calculating__choose-item_active');
 	getStaticInformation('#gender', 'calculating__choose-item_active');
 	getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
 	getDinamicInformation('#height');
