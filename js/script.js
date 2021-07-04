@@ -487,7 +487,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	caltTotal();
 	getStaticInformation('#gender', 'calculating__choose-item_active');
 	getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
 	getDinamicInformation('#height');
