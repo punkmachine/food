@@ -443,23 +443,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function getStaticInformation(parentSelector, activClass) {
 		const elements = document.querySelectorAll(`${parentSelector} div`);
-
-		document.querySelector(parentSelector).addEventListener('click', function(event) {
-			if (event.target.getAttribute('data-ratio')) {
-				ratio = +event.target.getAttribute('data-ratio');
-			} else {
-				sex = event.target.getAttribute('id');
-			}
-
-			console.log(ratio, sex);
-
-			elements.forEach(function(elem) {
-				elem.classList.remove(activClass);
+		
+		elements.forEach(function(elem) {
+			elem.addEventListener('click', function(event) {
+				if (event.target.getAttribute('data-ratio')) {
+					ratio = +event.target.getAttribute('data-ratio');
+				} else {
+					sex = event.target.getAttribute('id');
+				}
+	
+				console.log(ratio, sex);
+	
+				elements.forEach(function(elem) {
+					elem.classList.remove(activClass);
+				});
+	
+				event.target.classList.add(activClass);
+	
+				caltTotal();
 			});
-
-			event.target.classList.add(activClass);
-
-			caltTotal();
 		});
 	}
 
