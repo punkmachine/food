@@ -467,6 +467,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
+	function compareValueInput(value, totalValue) {
+		if (+value >= totalValue) {
+			return '1px solid red';
+		} else {
+			return 'none';
+		}
+	}
+
 	function getDinamicInformation(selector) {
 		const input = document.querySelector(selector);
 
@@ -474,22 +482,39 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (input.value.match(/\D/g)) {
 				input.style.border = '1px solid red';
 			} else {
-				input.style.border = 'none';
+				switch (input.getAttribute('id')) {
+					case 'height': 
+						input.style.border = compareValueInput(input.value, 250);
+						break;
+					case 'weight':
+						input.style.border = compareValueInput(input.value, 350);
+						break;
+					case 'age':
+						input.style.border = compareValueInput(input.value, 130);
+						break;
+					default: 
+						input.style.border = 'none'; 
+						break;
+				}
 			}
 
-			switch (input.getAttribute('id')) {
-				case 'height': 
-					height = +input.value;
-					break;
-				case 'weight':
-					mass = +input.value;
-					break;
-				case 'age':
-					age = +input.value;
-					break;
+			if (input.style.border === 'none') {
+				switch (input.getAttribute('id')) {
+					case 'height': 
+						height = +input.value;
+						break;
+					case 'weight':
+						mass = +input.value;
+						break;
+					case 'age':
+						age = +input.value;
+						break;
+				}
+	
+				caltTotal();
+			} else {
+				result.textContent = '____';
 			}
-
-			caltTotal();
 		});
 	}
 
