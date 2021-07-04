@@ -426,7 +426,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	//! КАЛЬКУЛЯТОР.
 	let result = document.querySelector('.calculating__result span'),
-		sex, height, mass, age, ratio;
+		sex = 'female',
+		ratio = 1.375, 
+		height, mass, age;
 
 	function caltTotal() {
 		if (!sex || !height || !mass || !age || !ratio) {
