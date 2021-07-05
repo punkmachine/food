@@ -484,13 +484,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			} else {
 				switch (input.getAttribute('id')) {
 					case 'height': 
-						input.style.border = compareValueInput(input.value, 250);
+						input.style.border = compareValueInput(input.value, 251);
 						break;
 					case 'weight':
-						input.style.border = compareValueInput(input.value, 350);
+						input.style.border = compareValueInput(input.value, 451);
 						break;
 					case 'age':
-						input.style.border = compareValueInput(input.value, 130);
+						input.style.border = compareValueInput(input.value, 122);
 						break;
 					default: 
 						input.style.border = 'none'; 
