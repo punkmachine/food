@@ -339,10 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	function showSlide(index) {
 		arraySlide.forEach(function(slide) {
 			slide.classList.add('hide');
-			slide.classList.remove('show');
+			slide.classList.remove('show', 'fade');
 		});
 
-		arraySlide[index].classList.add('show');
+		arraySlide[index].classList.add('show', 'fade');
 		arraySlide[index].classList.remove('hide');
 	}
 
