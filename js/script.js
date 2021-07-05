@@ -12,17 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			  success: 'Спасибо! Скоро свяжемся с вами!',
 			  failure: 'Сервер грустит'
 		  };
-
-
-	function nameFormat(str) {
-		// ( |^) - пробел или начало строки
-		// [а-яёa-z] - маленькие буквы латиницы и кириллицы
-		//TODO: добавить проверку на числа в начале строки, добавить проверку на множество пробелов (и их удаление)
-		const reg = /( |^)[а-яёa-z]/g;
-
-		str = str.match(reg)[0].toUpperCase() + str.slice(1);
-		return str;
-	}
 		  
 	function closeModalWindow() {
 		modalWindow.classList.remove('modal_active');
@@ -78,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			let json = Object.fromEntries(formData.entries());
 
 			//обработка для заглавной буквы
-			json.name = nameFormat(json.name);
+			json.name = S(`${json.name}`).capitalize().s;
 
 			//превращение данных в json
 			json = JSON.stringify(json);
