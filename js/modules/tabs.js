@@ -43,4 +43,4 @@ function tabs() {
 	showTabContent(0);
 }
 
-module.exports = tabs;
+export default tabs;
