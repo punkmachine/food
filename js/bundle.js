@@ -504,11 +504,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function tabs() {
+function tabs(selectorTabs, selectorTabsContent, selectorTabsParent) {
 	//! ТАБЫ.
-	const tabs = document.querySelectorAll('.tabheader__item'),
-		  tabsContent = document.querySelectorAll('.tabcontent'),
-		  tabsParent = document.querySelector('.tabheader__items');
+	const tabs = document.querySelectorAll(selectorTabs),
+		  tabsContent = document.querySelectorAll(selectorTabsContent),
+		  tabsParent = document.querySelector(selectorTabsParent);
 	
 	function hideTabContent() {
 		tabsContent.forEach(function(tab) {
@@ -718,7 +718,7 @@ __webpack_require__.r(__webpack_exports__);
 
 //После загрузки DOM.
 document.addEventListener('DOMContentLoaded', () => {	
-	(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)();
+	(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)('.tabheader__item', '.tabcontent', '.tabheader__items');
 	(0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)('[data-modal-open]', '.modal');
 	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_5__.default)();
 	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();

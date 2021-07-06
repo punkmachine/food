@@ -1,8 +1,8 @@
-function tabs() {
+function tabs(selectorTabs, selectorTabsContent, selectorTabsParent) {
 	//! ТАБЫ.
-	const tabs = document.querySelectorAll('.tabheader__item'),
-		  tabsContent = document.querySelectorAll('.tabcontent'),
-		  tabsParent = document.querySelector('.tabheader__items');
+	const tabs = document.querySelectorAll(selectorTabs),
+		  tabsContent = document.querySelectorAll(selectorTabsContent),
+		  tabsParent = document.querySelector(selectorTabsParent);
 	
 	function hideTabContent() {
 		tabsContent.forEach(function(tab) {
