@@ -1,3 +1,5 @@
+import {getZero} from './timer';
+
 function slider() {
 	//! СЛАЙДЕР.
 	const slider = document.querySelector('.offer__slider'),
@@ -86,4 +88,4 @@ function slider() {
 	});
 }
 
-module.exports = slider;
+export default slider;
