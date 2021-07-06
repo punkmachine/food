@@ -1,7 +1,7 @@
-function modal() {
+function modal(triggerSelector, modalSelector) {
 	//! МОДАЛЬНОЕ ОКНО.
-	const modalOpen = document.querySelectorAll('[data-modal-open]'),
-		  modalWindow = document.querySelector('.modal'),
+	const modalOpen = document.querySelectorAll(triggerSelector),
+		  modalWindow = document.querySelector(modalSelector),
 		  modalTimerId = setTimeout(openModalWindow, 50000);
 	const forms = document.querySelectorAll('form'),
 		  messages = {

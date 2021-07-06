@@ -245,10 +245,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function modal() {
+function modal(triggerSelector, modalSelector) {
 	//! МОДАЛЬНОЕ ОКНО.
-	const modalOpen = document.querySelectorAll('[data-modal-open]'),
-		  modalWindow = document.querySelector('.modal'),
+	const modalOpen = document.querySelectorAll(triggerSelector),
+		  modalWindow = document.querySelector(modalSelector),
 		  modalTimerId = setTimeout(openModalWindow, 50000);
 	const forms = document.querySelectorAll('form'),
 		  messages = {
@@ -719,7 +719,7 @@ __webpack_require__.r(__webpack_exports__);
 //После загрузки DOM.
 document.addEventListener('DOMContentLoaded', () => {	
 	(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)();
-	(0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)();
+	(0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)('[data-modal-open]', '.modal');
 	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_5__.default)();
 	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
 	(0,_modules_calc__WEBPACK_IMPORTED_MODULE_1__.default)();

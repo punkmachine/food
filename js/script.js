@@ -10,7 +10,7 @@ import timer from './modules/timer';
 //После загрузки DOM.
 document.addEventListener('DOMContentLoaded', () => {	
 	tabs();
-	modal();
+	modal('[data-modal-open]', '.modal');
 	timer();
 	cards();
 	calc();
