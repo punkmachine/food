@@ -1,4 +1,4 @@
-import {getZero} from './timer';
+import {getZero} from '../services/services';
 
 function slider() {
 	const slider = document.querySelector('.offer__slider'),
