@@ -1,5 +1,4 @@
 function tabs(selectorTabs, selectorTabsContent, selectorTabsParent) {
-	//! ТАБЫ.
 	const tabs = document.querySelectorAll(selectorTabs),
 		  tabsContent = document.querySelectorAll(selectorTabsContent),
 		  tabsParent = document.querySelector(selectorTabsParent);

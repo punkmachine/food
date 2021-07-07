@@ -8,7 +8,6 @@ function getZero(num) {
 }
 
 function timer() {
-	//! ТАЙМЕР.
 	const deadline = '2021-07-16T15:00:00.000Z';
 	
 	function getTimeRemaining(endtime) {

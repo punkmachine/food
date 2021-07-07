@@ -1,5 +1,4 @@
 function calc() {
-	//! КАЛЬКУЛЯТОР.
 	let result = document.querySelector('.calculating__result span'),
 		sex, ratio, height, mass, age;
 

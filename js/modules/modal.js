@@ -1,5 +1,4 @@
 function modal(triggerSelector, modalSelector) {
-	//! МОДАЛЬНОЕ ОКНО.
 	const modalOpen = document.querySelectorAll(triggerSelector),
 		  modalWindow = document.querySelector(modalSelector),
 		  modalTimerId = setTimeout(openModalWindow, 50000);

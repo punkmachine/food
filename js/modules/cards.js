@@ -1,5 +1,4 @@
 function cards() {
-	//! КАРТОЧКИ МЕНЮ.
 	class MenuCard {
 		constructor(title, description, price, img, parent = '.menu__field .container', ...classes) {
 			this.title = title;

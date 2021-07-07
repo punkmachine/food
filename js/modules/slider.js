@@ -1,7 +1,6 @@
 import {getZero} from './timer';
 
 function slider() {
-	//! СЛАЙДЕР.
 	const slider = document.querySelector('.offer__slider'),
 		  arraySlide = slider.querySelectorAll('.offer__slide'),
 		  arrowSliderNext = slider.querySelector('.offer__slider-next'),
