@@ -1,11 +1,11 @@
 import {getZero} from '../services/services';
 
-function slider() {
-	const slider = document.querySelector('.offer__slider'),
-		  arraySlide = slider.querySelectorAll('.offer__slide'),
-		  arrowSliderNext = slider.querySelector('.offer__slider-next'),
-		  arrowSliderPrev = slider.querySelector('.offer__slider-prev'),
-		  currentSlide = slider.querySelector('#current');
+function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
+	const slider = document.querySelector(container),
+		  arraySlide = slider.querySelectorAll(slide),
+		  arrowSliderNext = slider.querySelector(nextArrow),
+		  arrowSliderPrev = slider.querySelector(prevArrow),
+		  currentSlide = slider.querySelector(currentCounter);
 	let countSlide = +currentSlide.innerHTML;
 	const indicators = document.createElement('ol');
 	//массив с точками в тавигации слайдера

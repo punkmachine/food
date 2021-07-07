@@ -13,7 +13,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function calc() {
-	//! КАЛЬКУЛЯТОР.
 	let result = document.querySelector('.calculating__result span'),
 		sex, ratio, height, mass, age;
 
@@ -162,7 +161,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function cards() {
-	//! КАРТОЧКИ МЕНЮ.
 	class MenuCard {
 		constructor(title, description, price, img, parent = '.menu__field .container', ...classes) {
 			this.title = title;
@@ -246,7 +244,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function modal(triggerSelector, modalSelector) {
-	//! МОДАЛЬНОЕ ОКНО.
 	const modalOpen = document.querySelectorAll(triggerSelector),
 		  modalWindow = document.querySelector(modalSelector),
 		  modalTimerId = setTimeout(openModalWindow, 50000);
@@ -399,16 +396,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./timer */ "./js/modules/timer.js");
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
 
 
-function slider() {
-	//! СЛАЙДЕР.
-	const slider = document.querySelector('.offer__slider'),
-		  arraySlide = slider.querySelectorAll('.offer__slide'),
-		  arrowSliderNext = slider.querySelector('.offer__slider-next'),
-		  arrowSliderPrev = slider.querySelector('.offer__slider-prev'),
-		  currentSlide = slider.querySelector('#current');
+function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
+	const slider = document.querySelector(container),
+		  arraySlide = slider.querySelectorAll(slide),
+		  arrowSliderNext = slider.querySelector(nextArrow),
+		  arrowSliderPrev = slider.querySelector(prevArrow),
+		  currentSlide = slider.querySelector(currentCounter);
 	let countSlide = +currentSlide.innerHTML;
 	const indicators = document.createElement('ol');
 	//массив с точками в тавигации слайдера
@@ -427,7 +423,7 @@ function slider() {
 	function arrowOrDotsClick() {
 		showSlide(countSlide-1);
 
-		currentSlide.innerHTML = (0,_timer__WEBPACK_IMPORTED_MODULE_0__.getZero)(countSlide);
+		currentSlide.innerHTML = (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getZero)(countSlide);
 
 		//удаление класса активности у всех точек
 		dots.forEach(function(dot) {
@@ -483,7 +479,7 @@ function slider() {
 			const slideTo = event.target.getAttribute('data-slide-to');
 
 			countSlide = +slideTo;
-			currentSlide.innerHTML = (0,_timer__WEBPACK_IMPORTED_MODULE_0__.getZero)(countSlide);
+			currentSlide.innerHTML = (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getZero)(countSlide);
 
 			arrowOrDotsClick();
 		});
@@ -505,7 +501,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function tabs(selectorTabs, selectorTabsContent, selectorTabsParent) {
-	//! ТАБЫ.
 	const tabs = document.querySelectorAll(selectorTabs),
 		  tabsContent = document.querySelectorAll(selectorTabsContent),
 		  tabsParent = document.querySelector(selectorTabsParent);
@@ -562,19 +557,12 @@ function tabs(selectorTabs, selectorTabsContent, selectorTabsParent) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   "getZero": () => (/* binding */ getZero)
+/* harmony export */   "getZero": () => (/* reexport safe */ _services_services__WEBPACK_IMPORTED_MODULE_0__.getZero)
 /* harmony export */ });
-//для подставления нуля в таймер, если там стоят не двухзначные дни\часы.
-function getZero(num) {
-	if (num >= 0 && num < 10) {
-		return `0${num}`;
-	} else {
-		return num;
-	}
-}
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
+
 
 function timer() {
-	//! ТАЙМЕР.
 	const deadline = '2021-07-16T15:00:00.000Z';
 	
 	function getTimeRemaining(endtime) {
@@ -611,10 +599,10 @@ function timer() {
 			const t = getTimeRemaining(endtime);
 
 			//занесение необходимых значений в объекты на странице
-			days.innerHTML = getZero(t.days);
-			hours.innerHTML = getZero(t.hours);
-			minutes.innerHTML = getZero(t.minutes);
-			seconds.innerHTML = getZero(t.seconds);
+			days.innerHTML = (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getZero)(t.days);
+			hours.innerHTML = (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getZero)(t.hours);
+			minutes.innerHTML = (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getZero)(t.minutes);
+			seconds.innerHTML = (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getZero)(t.seconds);
 
 			//остановка таймера.
 			if (t.total <= 0) {
@@ -634,6 +622,29 @@ function timer() {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timer);
+
+
+/***/ }),
+
+/***/ "./js/services/services.js":
+/*!*********************************!*\
+  !*** ./js/services/services.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getZero": () => (/* binding */ getZero)
+/* harmony export */ });
+//для подставления нуля в таймер, если там стоят не двухзначные дни\часы.
+function getZero(num) {
+	if (num >= 0 && num < 10) {
+		return `0${num}`;
+	} else {
+		return num;
+	}
+}
+
 
 
 /***/ })
@@ -723,7 +734,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_5__.default)();
 	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
 	(0,_modules_calc__WEBPACK_IMPORTED_MODULE_1__.default)();
-	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_4__.default)();
+	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_4__.default)({
+        container: '.offer__slider',
+        slide: '.offer__slide',
+        nextArrow: '.offer__slider-next',
+        prevArrow: '.offer__slider-prev',
+        currentCounter: '#current',
+        wrapper: '.offer__slider-wrapper',
+        field: '.offer__slider-inner'
+    });
 });
 })();
 
