@@ -1,3 +1,5 @@
+import {postData} from '../services/services';
+
 function modal(triggerSelector, modalSelector) {
 	const modalOpen = document.querySelectorAll(triggerSelector),
 		  modalWindow = document.querySelector(modalSelector),
@@ -29,18 +31,7 @@ function modal(triggerSelector, modalSelector) {
 		}
 	}
 
-	//настройка запроса, посыл запроса на сервер и получение ответа
-	async function postData(url, data) {
-		const res = await fetch(url, {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: data
-		});
-
-		return await res.json();
-	}
+	//!
 
 	//привязка постов 
 	function bindPostData(form) {

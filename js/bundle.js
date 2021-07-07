@@ -243,6 +243,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
+
+
 function modal(triggerSelector, modalSelector) {
 	const modalOpen = document.querySelectorAll(triggerSelector),
 		  modalWindow = document.querySelector(modalSelector),
@@ -274,18 +277,7 @@ function modal(triggerSelector, modalSelector) {
 		}
 	}
 
-	//настройка запроса, посыл запроса на сервер и получение ответа
-	async function postData(url, data) {
-		const res = await fetch(url, {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: data
-		});
-
-		return await res.json();
-	}
+	//!
 
 	//привязка постов 
 	function bindPostData(form) {
@@ -314,7 +306,7 @@ function modal(triggerSelector, modalSelector) {
 			json = JSON.stringify(json);
 
 			//обработка промиса
-			postData('http://localhost:3000/requests', json)
+			(0,_services_services__WEBPACK_IMPORTED_MODULE_0__.postData)('http://localhost:3000/requests', json)
 				.then(function(data) {
 					showThanksModal(messages.success);
 					statusMessage.remove();
@@ -634,7 +626,8 @@ function timer() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getZero": () => (/* binding */ getZero)
+/* harmony export */   "getZero": () => (/* binding */ getZero),
+/* harmony export */   "postData": () => (/* binding */ postData)
 /* harmony export */ });
 //для подставления нуля в таймер, если там стоят не двухзначные дни\часы.
 function getZero(num) {
@@ -644,6 +637,20 @@ function getZero(num) {
 		return num;
 	}
 }
+
+//настройка запроса, посыл запроса на сервер и получение ответа
+async function postData(url, data) {
+	const res = await fetch(url, {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: data
+	});
+
+	return await res.json();
+}
+
 
 
 
