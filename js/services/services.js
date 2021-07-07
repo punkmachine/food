@@ -20,5 +20,17 @@ async function postData(url, data) {
 	return await res.json();
 }
 
+//получение карточек меню
+async function getResources(url) {
+	const res = await fetch(url);
+
+	if (!res.ok) {
+		throw new Error(`Не получается обработать fetch ${url}, статус: ${res.status}`);
+	}
+
+	return await res.json();
+}
+
 export {getZero};
 export {postData};
+export {getResources};

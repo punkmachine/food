@@ -160,6 +160,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
+
+
 function cards() {
 	class MenuCard {
 		constructor(title, description, price, img, parent = '.menu__field .container', ...classes) {
@@ -199,19 +202,8 @@ function cards() {
 		}
 	}
 
-	//получение карточек меню
-	async function getResources(url) {
-		const res = await fetch(url);
-
-		if (!res.ok) {
-			throw new Error(`Не получается обработать fetch ${url}, статус: ${res.status}`);
-		}
-
-		return await res.json();
-	}
-
 	//мой запрос на сервер, для отображения карточек меню
-	getResources('http://localhost:3000/menu')
+	(0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResources)('http://localhost:3000/menu')
 		.then(function(data) {
 			data.forEach(function({title, description, price, img}) {
 				new MenuCard(title, description, price, img).render();
@@ -276,8 +268,6 @@ function modal(triggerSelector, modalSelector) {
 			window.removeEventListener('scroll', showModalByScroll);
 		}
 	}
-
-	//!
 
 	//привязка постов 
 	function bindPostData(form) {
@@ -627,7 +617,8 @@ function timer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getZero": () => (/* binding */ getZero),
-/* harmony export */   "postData": () => (/* binding */ postData)
+/* harmony export */   "postData": () => (/* binding */ postData),
+/* harmony export */   "getResources": () => (/* binding */ getResources)
 /* harmony export */ });
 //для подставления нуля в таймер, если там стоят не двухзначные дни\часы.
 function getZero(num) {
@@ -650,6 +641,18 @@ async function postData(url, data) {
 
 	return await res.json();
 }
+
+//получение карточек меню
+async function getResources(url) {
+	const res = await fetch(url);
+
+	if (!res.ok) {
+		throw new Error(`Не получается обработать fetch ${url}, статус: ${res.status}`);
+	}
+
+	return await res.json();
+}
+
 
 
 

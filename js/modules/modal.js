@@ -31,8 +31,6 @@ function modal(triggerSelector, modalSelector) {
 		}
 	}
 
-	//!
-
 	//привязка постов 
 	function bindPostData(form) {
 		form.addEventListener('submit', function(event) {
