@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	cards();
 	calc();
 	slider({
-        container: '.offer__slider',
-        slide: '.offer__slide',
-        nextArrow: '.offer__slider-next',
-        prevArrow: '.offer__slider-prev',
-        currentCounter: '#current',
-        wrapper: '.offer__slider-wrapper',
-        field: '.offer__slider-inner'
-    });
+		container: '.offer__slider',
+		slide: '.offer__slide',
+		nextArrow: '.offer__slider-next',
+		prevArrow: '.offer__slider-prev',
+		currentCounter: '#current',
+		wrapper: '.offer__slider-wrapper',
+		field: '.offer__slider-inner'
+	});
 });

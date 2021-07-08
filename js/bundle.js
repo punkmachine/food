@@ -745,14 +745,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
 	(0,_modules_calc__WEBPACK_IMPORTED_MODULE_1__.default)();
 	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_4__.default)({
-        container: '.offer__slider',
-        slide: '.offer__slide',
-        nextArrow: '.offer__slider-next',
-        prevArrow: '.offer__slider-prev',
-        currentCounter: '#current',
-        wrapper: '.offer__slider-wrapper',
-        field: '.offer__slider-inner'
-    });
+		container: '.offer__slider',
+		slide: '.offer__slide',
+		nextArrow: '.offer__slider-next',
+		prevArrow: '.offer__slider-prev',
+		currentCounter: '#current',
+		wrapper: '.offer__slider-wrapper',
+		field: '.offer__slider-inner'
+	});
 });
 })();
 
