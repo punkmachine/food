@@ -739,20 +739,55 @@ __webpack_require__.r(__webpack_exports__);
 
 //После загрузки DOM.
 document.addEventListener('DOMContentLoaded', () => {	
-	(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)('.tabheader__item', '.tabcontent', '.tabheader__items');
-	(0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)('[data-modal-open]', '.modal');
-	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_5__.default)();
-	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
-	(0,_modules_calc__WEBPACK_IMPORTED_MODULE_1__.default)();
-	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_4__.default)({
-		container: '.offer__slider',
-		slide: '.offer__slide',
-		nextArrow: '.offer__slider-next',
-		prevArrow: '.offer__slider-prev',
-		currentCounter: '#current',
-		wrapper: '.offer__slider-wrapper',
-		field: '.offer__slider-inner'
-	});
+	try {
+		(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)('.tabheader__item', '.tabcontent', '.tabheader__items');
+	}
+	catch(error) {
+		alert('Табы умерли');
+	}
+	
+	try {
+		(0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)('[data-modal-open]', '.modal');
+	}
+	catch(error) {
+		alert('Модалка умерла');
+	}
+
+	try {
+		(0,_modules_timer__WEBPACK_IMPORTED_MODULE_5__.default)();
+	}
+	catch(error) {
+		alert('Умер таймер');
+	}
+
+	try {
+		(0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
+	}
+	catch(error) {
+		alert('Карточки меню умерли');
+	}
+	
+	try {
+		(0,_modules_calc__WEBPACK_IMPORTED_MODULE_1__.default)();
+	}
+	catch(error) {
+		alert('Умер калькулятор');
+	}
+
+	try {
+		(0,_modules_slider__WEBPACK_IMPORTED_MODULE_4__.default)({
+			container: '.offer__slider',
+			slide: '.offer__slide',
+			nextArrow: '.offer__slider-next',
+			prevArrow: '.offer__slider-prev',
+			currentCounter: '#current',
+			wrapper: '.offer__slider-wrapper',
+			field: '.offer__slider-inner'
+		});
+	}
+	catch(error) {
+		alert('Умер слайдер');
+	}
 });
 })();
 
