@@ -28,8 +28,6 @@ function calc() {
 					localStorage.setItem('sex', event.target.getAttribute('id'));
 				}
 	
-				console.log(ratio, sex);
-	
 				elements.forEach(function(elem) {
 					elem.classList.remove(activClass);
 				});
