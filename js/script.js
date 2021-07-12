@@ -11,36 +11,31 @@ import timer from './modules/timer';
 document.addEventListener('DOMContentLoaded', () => {	
 	try {
 		tabs('.tabheader__item', '.tabcontent', '.tabheader__items');
-	}
-	catch(error) {
+	} catch(error) {
 		alert('Табы умерли');
 	}
 	
 	try {
 		modal('[data-modal-open]', '.modal');
-	}
-	catch(error) {
+	} catch(error) {
 		alert('Модалка умерла');
 	}
 
 	try {
 		timer();
-	}
-	catch(error) {
+	} catch(error) {
 		alert('Умер таймер');
 	}
 
 	try {
 		cards();
-	}
-	catch(error) {
+	} catch(error) {
 		alert('Карточки меню умерли');
 	}
 	
 	try {
 		calc();
-	}
-	catch(error) {
+	} catch(error) {
 		alert('Умер калькулятор');
 	}
 
@@ -54,8 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			wrapper: '.offer__slider-wrapper',
 			field: '.offer__slider-inner'
 		});
-	}
-	catch(error) {
+	} catch(error) {
 		alert('Умер слайдер');
 	}
 });

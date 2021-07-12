@@ -92,7 +92,7 @@ function modal(triggerSelector, modalSelector) {
 		document.querySelector('.modal').append(thanksModal);
 
 		//удаление блока с сообщением об отправке по таймеру
-		setTimeout(function() {
+		setTimeout(() => {
 			thanksModal.remove();
 			prevModalDialog.classList.add('show');
 			prevModalDialog.classList.remove('hide');
