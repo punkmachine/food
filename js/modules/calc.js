@@ -17,9 +17,9 @@ function calc() {
 
 	function getStaticInformation(parentSelector, activClass) {
 		const elements = document.querySelectorAll(`${parentSelector} div`);
-		
-		elements.forEach(function(elem) {
-			elem.addEventListener('click', function(event) {
+
+		elements.forEach(function (elem) {
+			elem.addEventListener('click', function (event) {
 				if (event.target.getAttribute('data-ratio')) {
 					ratio = +event.target.getAttribute('data-ratio');
 					localStorage.setItem('ratio', event.target.getAttribute('data-ratio'));
@@ -27,13 +27,13 @@ function calc() {
 					sex = event.target.getAttribute('id');
 					localStorage.setItem('sex', event.target.getAttribute('id'));
 				}
-	
-				elements.forEach(function(elem) {
+
+				elements.forEach(function (elem) {
 					elem.classList.remove(activClass);
 				});
-	
+
 				event.target.classList.add(activClass);
-	
+
 				caltTotal();
 			});
 		});
@@ -50,12 +50,12 @@ function calc() {
 	function getDinamicInformation(selector) {
 		const input = document.querySelector(selector);
 
-		input.addEventListener('input', function() {
+		input.addEventListener('input', function () {
 			if (input.value.match(/\D/g)) {
 				input.style.border = '1px solid red';
 			} else {
 				switch (input.getAttribute('id')) {
-					case 'height': 
+					case 'height':
 						input.style.border = compareValueInput(input.value, 251);
 						break;
 					case 'weight':
@@ -64,15 +64,15 @@ function calc() {
 					case 'age':
 						input.style.border = compareValueInput(input.value, 122);
 						break;
-					default: 
-						input.style.border = 'none'; 
+					default:
+						input.style.border = 'none';
 						break;
 				}
 			}
 
 			if (input.style.border === 'none') {
 				switch (input.getAttribute('id')) {
-					case 'height': 
+					case 'height':
 						height = +input.value;
 						break;
 					case 'weight':
@@ -82,7 +82,7 @@ function calc() {
 						age = +input.value;
 						break;
 				}
-	
+
 				caltTotal();
 			} else {
 				result.textContent = '____';
@@ -93,7 +93,7 @@ function calc() {
 	function initLocalSettings(selector, activClass) {
 		const elements = document.querySelectorAll(selector);
 
-		elements.forEach(function(elem) {
+		elements.forEach(function (elem) {
 			elem.classList.remove(activClass);
 
 			if (elem.getAttribute('id') === localStorage.getItem('sex')) {

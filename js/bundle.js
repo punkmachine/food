@@ -161,12 +161,18 @@ __webpack_require__.r(__webpack_exports__);
 
 function cards() {
   class MenuCard {
-    constructor(title, description, price, img, parent = '.menu__field .container', ...classes) {
+    constructor(title, description, price, img) {
+      let parent = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '.menu__field .container';
       this.title = title;
       this.description = description;
       this.price = price;
       this.img = img;
       this.parent = document.querySelector(parent);
+
+      for (var _len = arguments.length, classes = new Array(_len > 5 ? _len - 5 : 0), _key = 5; _key < _len; _key++) {
+        classes[_key - 5] = arguments[_key];
+      }
+
       this.classes = classes;
     }
 
@@ -198,12 +204,13 @@ function cards() {
 
 
   (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResources)('http://localhost:3000/menu').then(function (data) {
-    data.forEach(function ({
-      title,
-      description,
-      price,
-      img
-    }) {
+    data.forEach(function (_ref) {
+      let {
+        title,
+        description,
+        price,
+        img
+      } = _ref;
       new MenuCard(title, description, price, img).render();
     });
   }); //запрос на сервер для отображения карточек меню с axios
@@ -356,13 +363,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
 
 
-function slider({
-  container,
-  slide,
-  nextArrow,
-  prevArrow,
-  currentCounter
-}) {
+function slider(_ref) {
+  let {
+    container,
+    slide,
+    nextArrow,
+    prevArrow,
+    currentCounter
+  } = _ref;
   const slider = document.querySelector(container),
         arraySlide = slider.querySelectorAll(slide),
         arrowSliderNext = slider.querySelector(nextArrow),
@@ -508,7 +516,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function timer() {
-  const deadline = '2021-07-16T15:00:00.000Z';
+  const deadline = '2022-04-16T15:00:00.000Z';
 
   function getTimeRemaining(endtime) {
     //получение разницы между планируемым временем и текущим
@@ -698,37 +706,37 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener('DOMContentLoaded', () => {
   try {
-    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)('.tabheader__item', '.tabcontent', '.tabheader__items');
+    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items');
   } catch (error) {
     alert('Табы умерли');
   }
 
   try {
-    (0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.default)('[data-modal-open]', '.modal');
+    (0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__["default"])('[data-modal-open]', '.modal');
   } catch (error) {
     alert('Модалка умерла');
   }
 
   try {
-    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_5__.default)();
+    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])();
   } catch (error) {
     alert('Умер таймер');
   }
 
   try {
-    (0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__.default)();
+    (0,_modules_cards__WEBPACK_IMPORTED_MODULE_2__["default"])();
   } catch (error) {
     alert('Карточки меню умерли');
   }
 
   try {
-    (0,_modules_calc__WEBPACK_IMPORTED_MODULE_1__.default)();
+    (0,_modules_calc__WEBPACK_IMPORTED_MODULE_1__["default"])();
   } catch (error) {
     alert('Умер калькулятор');
   }
 
   try {
-    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_4__.default)({
+    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_4__["default"])({
       container: '.offer__slider',
       slide: '.offer__slide',
       nextArrow: '.offer__slider-next',

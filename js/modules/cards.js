@@ -1,4 +1,4 @@
-import {getResources} from '../services/services';
+import { getResources } from '../services/services';
 
 function cards() {
 	class MenuCard {
@@ -20,7 +20,7 @@ function cards() {
 			}
 
 			//назначение классов селекторам
-			this.classes.forEach(function(className) {
+			this.classes.forEach(function (className) {
 				element.classList.add(className);
 			});
 
@@ -41,8 +41,8 @@ function cards() {
 
 	//мой запрос на сервер, для отображения карточек меню
 	getResources('http://localhost:3000/menu')
-		.then(function(data) {
-			data.forEach(function({title, description, price, img}) {
+		.then(function (data) {
+			data.forEach(function ({ title, description, price, img }) {
 				new MenuCard(title, description, price, img).render();
 			});
 		});

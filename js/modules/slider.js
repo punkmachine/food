@@ -1,18 +1,18 @@
-import {getZero} from '../services/services';
+import { getZero } from '../services/services';
 
-function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
+function slider({ container, slide, nextArrow, prevArrow, currentCounter }) {
 	const slider = document.querySelector(container),
-		  arraySlide = slider.querySelectorAll(slide),
-		  arrowSliderNext = slider.querySelector(nextArrow),
-		  arrowSliderPrev = slider.querySelector(prevArrow),
-		  currentSlide = slider.querySelector(currentCounter);
+		arraySlide = slider.querySelectorAll(slide),
+		arrowSliderNext = slider.querySelector(nextArrow),
+		arrowSliderPrev = slider.querySelector(prevArrow),
+		currentSlide = slider.querySelector(currentCounter);
 	let countSlide = +currentSlide.innerHTML;
 	const indicators = document.createElement('ol');
 	//массив с точками в тавигации слайдера
 	let dots = [];
 
 	function showSlide(index) {
-		arraySlide.forEach(function(slide) {
+		arraySlide.forEach(function (slide) {
 			slide.classList.add('hide');
 			slide.classList.remove('show', 'fade');
 		});
@@ -22,19 +22,19 @@ function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
 	}
 
 	function arrowOrDotsClick() {
-		showSlide(countSlide-1);
+		showSlide(countSlide - 1);
 
 		currentSlide.innerHTML = getZero(countSlide);
 
 		//удаление класса активности у всех точек
-		dots.forEach(function(dot) {
+		dots.forEach(function (dot) {
 			dot.classList.remove('dot_active');
 		});
 
-		dots[countSlide-1].classList.add('dot_active');
+		dots[countSlide - 1].classList.add('dot_active');
 	}
 
-	arrowSliderNext.addEventListener('click', function() {
+	arrowSliderNext.addEventListener('click', function () {
 		if (countSlide == arraySlide.length) {
 			countSlide = 1;
 		} else {
@@ -44,7 +44,7 @@ function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
 		arrowOrDotsClick();
 	});
 
-	arrowSliderPrev.addEventListener('click', function() {
+	arrowSliderPrev.addEventListener('click', function () {
 		if (countSlide == 1) {
 			countSlide = +arraySlide.length;
 		} else {
@@ -55,7 +55,7 @@ function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
 	});
 
 	slider.style.position = 'relative';
-	
+
 	//индикаторы слайдера
 	indicators.classList.add('carousel-indicators');
 	slider.append(indicators);
@@ -66,7 +66,7 @@ function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
 
 		dot.setAttribute('data-slide-to', i + 1);
 		dot.classList.add('dot');
-		
+
 		if (i == 0) {
 			dot.classList.add('dot_active');
 		}
@@ -75,8 +75,8 @@ function slider({container, slide, nextArrow, prevArrow, currentCounter}) {
 		dots.push(dot);
 	}
 
-	dots.forEach(function(dot) {
-		dot.addEventListener('click', function(event) {
+	dots.forEach(function (dot) {
+		dot.addEventListener('click', function (event) {
 			const slideTo = event.target.getAttribute('data-slide-to');
 
 			countSlide = +slideTo;

@@ -1,16 +1,16 @@
-import {postData} from '../services/services';
+import { postData } from '../services/services';
 
 function modal(triggerSelector, modalSelector) {
 	const modalOpen = document.querySelectorAll(triggerSelector),
-		  modalWindow = document.querySelector(modalSelector),
-		  modalTimerId = setTimeout(openModalWindow, 50000);
+		modalWindow = document.querySelector(modalSelector),
+		modalTimerId = setTimeout(openModalWindow, 50000);
 	const forms = document.querySelectorAll('form'),
-		  messages = {
-			  loading: 'icons/spinner.svg',
-			  success: 'Спасибо! Скоро свяжемся с вами!',
-			  failure: 'Сервер грустит'
-		  };
-		  
+		messages = {
+			loading: 'icons/spinner.svg',
+			success: 'Спасибо! Скоро свяжемся с вами!',
+			failure: 'Сервер грустит'
+		};
+
 	function closeModalWindow() {
 		modalWindow.classList.remove('modal_active');
 		document.body.style.overflow = '';
@@ -25,7 +25,7 @@ function modal(triggerSelector, modalSelector) {
 	function showModalByScroll() {
 		//* Без "-1" в конце не работает в Vivaldi из-за нижнего тулбара.
 		//* В хроме и мозиле конфликтов из-за этого не возникает.
-		if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight-1) {
+		if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
 			openModalWindow();
 			window.removeEventListener('scroll', showModalByScroll);
 		}
@@ -33,7 +33,7 @@ function modal(triggerSelector, modalSelector) {
 
 	//привязка постов 
 	function bindPostData(form) {
-		form.addEventListener('submit', function(event) {
+		form.addEventListener('submit', function (event) {
 			event.preventDefault();
 
 			//создание и добавление элемента с сообщением пользователю
@@ -59,12 +59,12 @@ function modal(triggerSelector, modalSelector) {
 
 			//обработка промиса
 			postData('http://localhost:3000/requests', json)
-				.then(function(data) {
+				.then(function (data) {
 					showThanksModal(messages.success);
 					statusMessage.remove();
-				}).catch(function() {
+				}).catch(function () {
 					showThanksModal(messages.failure);
-				}).finally(function() {
+				}).finally(function () {
 					form.reset();
 				});
 		});
@@ -73,7 +73,7 @@ function modal(triggerSelector, modalSelector) {
 	//показ шаблонов при отправке данных на сервер
 	function showThanksModal(message) {
 		const prevModalDialog = document.querySelector('.modal__dialog'),
-			  thanksModal = document.createElement('div');
+			thanksModal = document.createElement('div');
 
 		//скрываем контент в модальном окне.
 		prevModalDialog.classList.add('hide');
@@ -101,17 +101,17 @@ function modal(triggerSelector, modalSelector) {
 	}
 
 	//назначение на каждую кнопку открытия модалки.
-	modalOpen.forEach(function(btn) {
+	modalOpen.forEach(function (btn) {
 		btn.addEventListener('click', openModalWindow);
 	});
 
-	modalWindow.addEventListener('click', function(event) {
+	modalWindow.addEventListener('click', function (event) {
 		if (event.target === modalWindow || event.target.getAttribute('data-modal-close') == '') {
 			closeModalWindow();
 		}
 	});
 
-	document.addEventListener('keydown', function(event) {
+	document.addEventListener('keydown', function (event) {
 		if (event.code === 'Escape' && modalWindow.classList.contains('modal_active')) {
 			closeModalWindow();
 		}
@@ -121,7 +121,7 @@ function modal(triggerSelector, modalSelector) {
 	window.addEventListener('scroll', showModalByScroll);
 
 	//привязка функций к каждой форме
-	forms.forEach(function(item) {
+	forms.forEach(function (item) {
 		bindPostData(item);
 	});
 }
